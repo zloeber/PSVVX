@@ -52,7 +52,8 @@
             "isBuildCommand": true,
             "args": [
                 "Invoke-Build -Task BuildInstallTestAndPublishModule"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "taskName": "Install and Load Module",
