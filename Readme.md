@@ -12,7 +12,7 @@ The Polycom VVX series devices have a RESTful interface. This module takes advan
 
 ## Requirements
 
-I wrote and tested this with PowerShell 5 but 3 or 4 will probably work just fine. Most of the script ideas were pulled from (this script)[http://www.myskypelab.com/2015/10/skype-for-business-lync-polycom-vvx.html] and all of the same device requirements listed therin will apply here as well.
+I wrote and tested this with PowerShell 5 but 3 or 4 will probably work just fine. Most of the script ideas were pulled from [this script](http://www.myskypelab.com/2015/10/skype-for-business-lync-polycom-vvx.html) and all of the same device requirements listed therin will apply here as well.
 
 If passing credentials for admin then use the default admin user of 'Polycom'.
 

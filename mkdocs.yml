@@ -1,0 +1,30 @@
+﻿use_directory_urls: false
+site_author: Zachary Loeber
+copyright: PSVVX is licensed under this <a href='https://github.com/zloeber/psvvx/blob/master/License.md'> license
+theme: readthedocs
+site_name: PSVVX Docs
+pages:
+- Acknowledgements: Acknowledgements.md
+- ChangeLog: ChangeLog.md
+- Contributing: Contributing.md
+- Index: Index.md
+- Functions:
+  - Find-VVXDevice: Functions/Find-VVXDevice.md
+  - Get-VVXCallStatus: Functions/Get-VVXCallStatus.md
+  - Get-VVXDeviceInfo: Functions/Get-VVXDeviceInfo.md
+  - Get-VVXLastRESTCall: Functions/Get-VVXLastRESTCall.md
+  - Get-VVXLineInfo: Functions/Get-VVXLineInfo.md
+  - Get-VVXNetworkInfo: Functions/Get-VVXNetworkInfo.md
+  - Get-VVXNetworkStat: Functions/Get-VVXNetworkStat.md
+  - Get-VVXSetting: Functions/Get-VVXSetting.md
+  - Get-VVXSIPStatus: Functions/Get-VVXSIPStatus.md
+  - Reboot-VVXDevice: Functions/Reboot-VVXDevice.md
+  - Reset-VVXConfigToFactory: Functions/Reset-VVXConfigToFactory.md
+  - Reset-VVXConfiguration: Functions/Reset-VVXConfiguration.md
+  - Restart-VVXDevice: Functions/Restart-VVXDevice.md
+  - Restart-VVXDeviceAndReboot: Functions/Restart-VVXDeviceAndReboot.md
+  - Send-VVXRestCommand: Functions/Send-VVXRestCommand.md
+  - Set-VVXScreenCapture: Functions/Set-VVXScreenCapture.md
+  - Set-VVXSetting: Functions/Set-VVXSetting.md
+repo_url: https://github.com/zloeber/psvvx
+

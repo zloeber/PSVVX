@@ -12,7 +12,7 @@
 RootModule = 'PSVVX.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.3'
+ModuleVersion = '0.0.4'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -107,7 +107,7 @@ PrivateData = @{
         IconUri = 'https://github.com/zloeber/psvvx/raw/master/src/other/powershell-project.png'
 
         # ReleaseNotes of this module
-        ReleaseNotes = '0.0.3 release'
+        ReleaseNotes = '0.0.4 release'
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
