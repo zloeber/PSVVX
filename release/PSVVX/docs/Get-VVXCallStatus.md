@@ -26,10 +26,7 @@ Returns the current call status of a device
 $cred = Get-Credential -UserName 'Polycom' -Message 'Please supply the admin password for the device'
 ```
 
-Get-VVXCallStatus -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate -ErrorAction:Ignore
-
-Retrieves a call status information report for the device.
-If no calls are in progress then a warning is displayed.
+Get-CallStatus -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate -ErrorAction:Ignore
 
 ## PARAMETERS
 

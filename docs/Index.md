@@ -7,10 +7,11 @@ Project Site: [https://github.com/zloeber/psvvx](https://github.com/zloeber/psvv
 PowerShell module for Polycom VVX devices
 
 ## Why use the PSVVX Module?
-<< Fill this out >>
+This module makes it trivial to script information gathering or changes to your fleet of Polycom VVX REST enabled devices.
 
 ### Features
-<< Fill this out >>
+- Fast and easy remote management of polycom VVX devices
+
 
 ## Installation
 PSVVX is available on the [PowerShell Gallery](https://www.powershellgallery.com/packages/PSVVX/).
@@ -32,5 +33,3 @@ Install-Module -Name PSVVX -Scope CurrentUser
 
 ## Acknowledgements
 [Other projects or sources of inspiration](Acknowledgements.md)
-
-

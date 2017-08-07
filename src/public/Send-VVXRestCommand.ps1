@@ -26,19 +26,6 @@ function Send-VVXRestCommand {
     User ID and password for the device
     .PARAMETER IgnoreSSLCertificate
     Ignore any certificate warnings
-    .EXAMPLE
-    -Command 'mgmt/safeRestart' -Method 'Post'
-    -Command 'mgmt/safeReboot' -Method 'Post'
-    -Command 'mgmt/configReset' -Method 'Post'
-    -Command 'mgmt/factoryReset' -Method 'Post'
-    -Command 'mgmt/device/info' -Method 'Get'
-    -Command 'webCallControl/callStatus' -Method 'Get'
-    -Command 'mgmt/network/info' -Method 'Get'
-    -Command 'mgmt/lineInfo' -Method 'Get'
-    -Command 'webCallControl/sipStatus' -Method 'Get'
-    -Command 'mgmt/network/stats' -Method 'Get'
-    -Command 'mgmt/config/set' -Method 'Post' -Body @{}
-    -Command 'mgmt/config/get' -Method 'Post' -Body @{}
 
     .EXAMPLE
     $cred = Get-Credential -UserName 'Polycom' -Message 'Please supply the admin password for the device'
@@ -83,7 +70,7 @@ function Send-VVXRestCommand {
 
         [Parameter(ParameterSetName = 'URINotPassed')]
         [Parameter(ParameterSetName = 'URIPassed')]
-        [Hashtable]$Body,
+        $Body,
 
         [Parameter(ParameterSetName = 'URINotPassed')]
         [Parameter(ParameterSetName = 'URIPassed')]
@@ -106,7 +93,7 @@ function Send-VVXRestCommand {
         Write-Verbose "$($FunctionName): Begin."
 
         $URIs = @()
-        $BodyData = if ($Body -eq $null) { $null } else { if ($Method -ne 'Get') { @{data = $Body} | ConvertTo-Json } else { $Body } }
+        $BodyData = if ($Body -eq $null) { $null } else { if ($Body -is [hashtable]) { @{data = $Body} | ConvertTo-Json } else { @{data = @($Body)} | ConvertTo-Json } }
 
         if ($IgnoreSSLCertificate) {
             Write-Verbose "$($FunctionName): Ignoring any SSL certificate errors"
@@ -129,6 +116,7 @@ function Send-VVXRestCommand {
     end {
         foreach ($URI in $URIs) {
             try {
+                Write-Verbose "$($FunctionName): Creating $Method request to $URI"
                 # Create a request object using the URI
                 $request = [System.Net.HttpWebRequest]::Create($URI)
 
@@ -168,7 +156,7 @@ function Send-VVXRestCommand {
                 if ($RetryCount -gt 0) {
                     Write-Verbose "$($FunctionName): Issue connecting to URI, Retries Left = $RetryCount"
                     $RetryCount--
-                    Send-VVXRestCommand -FullURI $URI -RetryCount $RetryCount -Credential $Credential
+                    Send-VVXRestCommand -FullURI $URI -RetryCount $RetryCount -Method $Method -Body $Body -Credential $Credential
                 }
                 else {
                     throw $RestError #"$($FunctionName): Exception occurred - `n$response"

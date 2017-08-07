@@ -14,13 +14,13 @@ Sends a REST command to a VVX device.
 ### URINotPassed (Default)
 ```
 Send-VVXRestCommand [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Command] <String>
- [-Base <String>] [-Method <String>] [-Body <Hashtable>] [-RetryCount <Int32>] [-IgnoreSSLCertificate]
+ [-Base <String>] [-Method <String>] [-Body <Object>] [-RetryCount <Int32>] [-IgnoreSSLCertificate]
  [-Credential <PSCredential>]
 ```
 
 ### URIPassed
 ```
-Send-VVXRestCommand [-FullURI] <String> [-Method <String>] [-Body <Hashtable>] [-RetryCount <Int32>]
+Send-VVXRestCommand [-FullURI] <String> [-Method <String>] [-Body <Object>] [-RetryCount <Int32>]
  [-IgnoreSSLCertificate] [-Credential <PSCredential>]
 ```
 
@@ -30,23 +30,6 @@ Sends a REST command to a VVX device.
 ## EXAMPLES
 
 ### -------------------------- EXAMPLE 1 --------------------------
-```
--Command 'mgmt/safeRestart' -Method 'Post'
-```
-
--Command 'mgmt/safeReboot' -Method 'Post'
--Command 'mgmt/configReset' -Method 'Post'
--Command 'mgmt/factoryReset' -Method 'Post'
--Command 'mgmt/device/info' -Method 'Get'
--Command 'webCallControl/callStatus' -Method 'Get'
--Command 'mgmt/network/info' -Method 'Get'
--Command 'mgmt/lineInfo' -Method 'Get'
--Command 'webCallControl/sipStatus' -Method 'Get'
--Command 'mgmt/network/stats' -Method 'Get'
--Command 'mgmt/config/set' -Method 'Post' -Body @{}
--Command 'mgmt/config/get' -Method 'Post' -Body @{}
-
-### -------------------------- EXAMPLE 2 --------------------------
 ```
 $cred = Get-Credential -UserName 'Polycom' -Message 'Please supply the admin password for the device'
 ```
@@ -175,7 +158,7 @@ Accept wildcard characters: False
 The body of the REST request
 
 ```yaml
-Type: Hashtable
+Type: Object
 Parameter Sets: (All)
 Aliases: 
 
