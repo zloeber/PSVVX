@@ -19,7 +19,7 @@ If passing credentials for admin then use the default admin user of 'Polycom'.
 ## Installation
 
 Powershell Gallery (PS 5.0, Preferred method)
-`install-module PSVVX`
+`install-module PSVVX -Scope:CurrentUser`
 
 Manual Installation
 `iex (New-Object Net.WebClient).DownloadString("https://github.com/zloeber/psvvx/raw/master/Install.ps1")`
@@ -31,11 +31,17 @@ and import the module to your session to test, but not install this module.
 
 - A simple mechanism to script a wide range of activities against Polycom VVX phones
 - Abstraction of several common phone tasks.
-- More to come, the base function can be used for almost any task though.
+- Two phone API integration methods, the REST API and the push model.
+- Find VVX devices without any REST or push model available
+- More to come, the base functions can be used for almost any task though.
 
 ## Versions
 
 0.0.1 - Initial Release
+0.0.4 - Several updates including:
+    - New functions for sending push commands
+    - New function for sending a text messagebox to devices
+    - Ability to add new commands to this module by simply updating one file in the prebuild scripts.
 
 ## Contribute
 

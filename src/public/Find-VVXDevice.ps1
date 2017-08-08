@@ -78,7 +78,7 @@ Content-Length: 0
             Status = $null
             LyncServer = $null
             ClientApp = $null
-            SIPUserName = $null
+            SipUser = $null
         }
         $a = new-object system.text.asciiencoding
         $byte = $a.GetBytes($message)
@@ -139,7 +139,7 @@ Content-Length: 0
                             }
                         }
                         elseif ($returndataSplit.Contains(";opaque")) {
-                            $Result.SIPUserName = ($returndataSplit -split ';')[0]
+                            $Result.SipUser = ($returndataSplit -split ';')[0]
 
                             if($returndata -imatch "targetname=") {
                                 [string]$LyncServerStringTemp = ($returndata -split "targetname=`"")[1]
