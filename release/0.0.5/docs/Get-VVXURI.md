@@ -4,47 +4,39 @@ online version: https://github.com/zloeber/PSVVX
 schema: 2.0.0
 ---
 
-# Send-VVXRestCommand
+# Get-VVXURI
 
 ## SYNOPSIS
-Sends a REST command to a VVX device.
+Attempts to retrieve a VVX URI.
 
 ## SYNTAX
 
 ### URINotPassed (Default)
 ```
-Send-VVXRestCommand [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Command] <String>
- [-Base <String>] [-Method <String>] [-Body <Object>] [-RetryCount <Int32>] [-RequestTimeOut <Int32>]
- [-IgnoreSSLCertificate] [-Credential <PSCredential>]
+Get-VVXURI [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Path <String>] [-RetryCount <Int32>]
+ [-RequestTimeOut <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
 ```
 
 ### URIPassed
 ```
-Send-VVXRestCommand [-FullURI] <String> [-Method <String>] [-Body <Object>] [-RetryCount <Int32>]
- [-RequestTimeOut <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
+Get-VVXURI [-FullURI] <String> [-RetryCount <Int32>] [-RequestTimeOut <Int32>] [-IgnoreSSLCertificate]
+ [-Credential <PSCredential>]
 ```
 
 ## DESCRIPTION
-Sends a REST command to a VVX device.
+Attempts to retrieve a VVX URI.
 
 ## EXAMPLES
 
 ### -------------------------- EXAMPLE 1 --------------------------
 ```
-$cred = Get-Credential -UserName 'Polycom' -Message 'Please supply the admin password for the device'
+TBD
 ```
-
-Send-VVXRestCommand -Command 'mgmt/device/info' -Method 'Get' -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate
-Send-VVXRestCommand -Command 'webCallControl/callStatus' -Method 'Get' -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate
-Send-VVXRestCommand -Command 'mgmt/network/info' -Method 'Get' -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate
-Send-VVXRestCommand -Command 'mgmt/lineInfo' -Method 'Get' -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate
-Send-VVXRestCommand -Command 'webCallControl/sipStatus' -Method 'Get' -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate
-Send-VVXRestCommand -Command 'mgmt/network/stats' -Method 'Get' -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate
 
 ## PARAMETERS
 
 ### -Device
-Device to send command for processing.
+Device to send HTTP get request
 
 ```yaml
 Type: String
@@ -91,24 +83,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Command
-RESTful command to send.
-
-```yaml
-Type: String
-Parameter Sets: URINotPassed
-Aliases: 
-
-Required: True
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Base
+### -Path
 Base REST uri path.
-Defaults to api/v1
 
 ```yaml
 Type: String
@@ -117,7 +93,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: Api/v1
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -132,38 +108,6 @@ Aliases:
 
 Required: True
 Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Method
-REST method to send.
-Can be Head, Get, Put, Patch, Post, or Delete.
-Default is Get.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: 
-
-Required: False
-Position: Named
-Default value: Get
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Body
-The body of the REST request
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: 
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -187,7 +131,7 @@ Accept wildcard characters: False
 
 ### -RequestTimeOut
 Amount of time to allow for the request to process (in ms).
-Defaults to 300 ms.
+Defaults to 800 ms.
 
 ```yaml
 Type: Int32
@@ -196,7 +140,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: 300
+Default value: 800
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

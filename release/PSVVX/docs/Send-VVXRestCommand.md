@@ -14,14 +14,14 @@ Sends a REST command to a VVX device.
 ### URINotPassed (Default)
 ```
 Send-VVXRestCommand [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Command] <String>
- [-Base <String>] [-Method <String>] [-Body <Object>] [-RetryCount <Int32>] [-IgnoreSSLCertificate]
- [-Credential <PSCredential>]
+ [-Base <String>] [-Method <String>] [-Body <Object>] [-RetryCount <Int32>] [-RequestTimeOut <Int32>]
+ [-IgnoreSSLCertificate] [-Credential <PSCredential>]
 ```
 
 ### URIPassed
 ```
 Send-VVXRestCommand [-FullURI] <String> [-Method <String>] [-Body <Object>] [-RetryCount <Int32>]
- [-IgnoreSSLCertificate] [-Credential <PSCredential>]
+ [-RequestTimeOut <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
 ```
 
 ## DESCRIPTION
@@ -181,6 +181,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: 3
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RequestTimeOut
+Amount of time to allow for the request to process (in ms).
+Defaults to 300 ms.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: Named
+Default value: 300
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

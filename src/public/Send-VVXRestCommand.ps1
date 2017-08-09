@@ -22,6 +22,8 @@ function Send-VVXRestCommand {
     The body of the REST request
     .PARAMETER RetryCount
     Number of times to retry if unsuccessful. Default is 3 times.
+    .PARAMETER RequestTimeout
+    Amount of time to allow for the request to process (in ms). Defaults to 300 ms.
     .PARAMETER Credential
     User ID and password for the device
     .PARAMETER IgnoreSSLCertificate
@@ -78,6 +80,10 @@ function Send-VVXRestCommand {
 
         [Parameter(ParameterSetName = 'URINotPassed')]
         [Parameter(ParameterSetName = 'URIPassed')]
+        [int]$RequestTimeOut = 300,
+
+        [Parameter(ParameterSetName = 'URINotPassed')]
+        [Parameter(ParameterSetName = 'URIPassed')]
         [switch]$IgnoreSSLCertificate,
 
         [Parameter(ParameterSetName = 'URINotPassed')]
@@ -88,7 +94,9 @@ function Send-VVXRestCommand {
         $Credential
     )
     begin {
-        Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        if ($Script:ThisModuleLoaded) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
         $FunctionName = $MyInvocation.MyCommand.Name
         Write-Verbose "$($FunctionName): Begin."
 
@@ -126,6 +134,7 @@ function Send-VVXRestCommand {
                 $request.AllowAutoRedirect = $false
                 $request.Method = $Method
                 $request.ContentType = "application/json"
+                $request.Timeout = $RequestTimeOut
 
                 if ($null -ne $Bodydata) {
                     $utf8Bytes = [System.Text.Encoding]::UTF8.GetBytes($BodyData)
