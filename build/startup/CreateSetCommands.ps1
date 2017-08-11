@@ -1,3 +1,5 @@
+# Use this build script to create simple set commands for individual values of a VVX device.
+
 $Template = @'
 function {{Name}} {
     <#
