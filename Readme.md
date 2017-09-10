@@ -37,11 +37,19 @@ and import the module to your session to test, but not install this module.
 
 ## Versions
 
-0.0.1 - Initial Release
-0.0.4 - Several updates including:
-    - New functions for sending push commands
-    - New function for sending a text messagebox to devices
-    - Ability to add new commands to this module by simply updating one file in the prebuild scripts.
+0.0.1
+- Initial Release
+
+0.0.4
+- Several updates including:
+- New functions for sending push commands
+- New function for sending a text messagebox to devices
+- Ability to add new commands to this module by simply updating one file in the prebuild scripts.
+
+0.0.7
+- Updates to the credential parameters for PS 4.0 compatibility
+- Added Send-VVSSIPNotify function
+- Many other clean up items
 
 ## Contribute
 
