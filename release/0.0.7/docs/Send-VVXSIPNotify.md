@@ -4,34 +4,34 @@ online version: https://github.com/zloeber/PSVVX
 schema: 2.0.0
 ---
 
-# Find-VVXDevice
+# Send-VVXSIPNotify
 
 ## SYNOPSIS
-Discovers a VVX device.
+Sends a SIP signal to a device.
 
 ## SYNTAX
 
 ```
-Find-VVXDevice [-Device] <String> [-Port <Int32>] [-DiscoveryWaitTime <Int32>] [-LocalIP <String>]
+Send-VVXSIPNotify [-Device] <String> [-Port <Int32>] [-WaitTime <Int32>] [-Event <String>] [-LocalIP <String>]
  [-LocalPort <Int32>]
 ```
 
 ## DESCRIPTION
-Discovers a VVX device.
+Sends a SIP signal to a device.
 
 ## EXAMPLES
 
 ### -------------------------- EXAMPLE 1 --------------------------
 ```
-Find-VVXDevice -Device '192.168.1.100'
+Find-VVXDevice -Device 10.0.29.20 | Where {$_.Status -eq 'online'} | Send-VVXSIPNotify
 ```
 
-Checks to see if the device at 192.168.1.100 is a VVX device.
+Sends the check-sync sip signal command (event) to 10.0.29.20 if the device is found.
 
 ## PARAMETERS
 
 ### -Device
-Device to discover.
+Device to send to.
 
 ```yaml
 Type: String
@@ -57,11 +57,11 @@ Aliases:
 Required: False
 Position: Named
 Default value: 5060
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
-### -DiscoveryWaitTime
+### -WaitTime
 Time in ms to wait for responses.
 Defaults to 350ms
 
@@ -73,6 +73,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: 350
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Event
+The SIP notify event to send.
+Defaults to 'check-sync'.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: Named
+Default value: Check-sync
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -89,7 +105,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-PIIPAddress | Select -First 1).IP.ToString()
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 

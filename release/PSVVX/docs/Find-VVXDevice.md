@@ -13,7 +13,7 @@ Discovers a VVX device.
 
 ```
 Find-VVXDevice [-Device] <String> [-Port <Int32>] [-DiscoveryWaitTime <Int32>] [-LocalIP <String>]
- [-LocalPort <String>]
+ [-LocalPort <Int32>]
 ```
 
 ## DESCRIPTION
@@ -23,8 +23,10 @@ Discovers a VVX device.
 
 ### -------------------------- EXAMPLE 1 --------------------------
 ```
-TBD
+Find-VVXDevice -Device '192.168.1.100'
 ```
+
+Checks to see if the device at 192.168.1.100 is a VVX device.
 
 ## PARAMETERS
 
@@ -86,23 +88,23 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: (Get-LocalIP)
+Default value: (Get-PIIPAddress | Select -First 1).IP.ToString()
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -LocalPort
 Local port to use for connection to device.
-Defaults to 51234.
+Defaults to a random unused high port.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases: 
 
 Required: False
 Position: Named
-Default value: 51234
+Default value: (Get-UnusedHighPort)
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

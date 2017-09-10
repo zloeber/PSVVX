@@ -64,10 +64,8 @@ function Send-VVXPushCommand {
 
         [Parameter(ParameterSetName = 'URINotPassed')]
         [Parameter(ParameterSetName = 'URIPassed')]
-        [alias('Creds')]
-        [Management.Automation.PSCredential]
-        [System.Management.Automation.CredentialAttribute()]
-        $Credential
+        [alias('Creds','Cred')]
+        [Management.Automation.PSCredential]$Credential
     )
     begin {
         Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState

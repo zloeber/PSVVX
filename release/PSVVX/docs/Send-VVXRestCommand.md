@@ -222,7 +222,7 @@ User ID and password for the device
 ```yaml
 Type: PSCredential
 Parameter Sets: (All)
-Aliases: Creds
+Aliases: Creds, Cred
 
 Required: False
 Position: Named

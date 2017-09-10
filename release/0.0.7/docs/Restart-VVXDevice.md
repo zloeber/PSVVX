@@ -4,43 +4,38 @@ online version: https://github.com/zloeber/PSVVX
 schema: 2.0.0
 ---
 
-# Send-VVXPushCommand
+# Restart-VVXDevice
 
 ## SYNOPSIS
-Sends a push command to a VVX device.
+Restart a VVX device
 
 ## SYNTAX
 
-### URINotPassed (Default)
 ```
-Send-VVXPushCommand [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Base <String>] -Body <Object>
- [-RetryCount <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
-```
-
-### URIPassed
-```
-Send-VVXPushCommand [-FullURI] <String> -Body <Object> [-RetryCount <Int32>] [-IgnoreSSLCertificate]
- [-Credential <PSCredential>]
+Restart-VVXDevice [-Device] <String> [-Protocol <String>] [-Port <Int32>] [-RetryCount <Int32>]
+ [-IgnoreSSLCertificate] [-Credential <PSCredential>]
 ```
 
 ## DESCRIPTION
-Sends a push command to a VVX device.
+Restart a VVX device
 
 ## EXAMPLES
 
 ### -------------------------- EXAMPLE 1 --------------------------
 ```
-TBD
+$cred = Get-Credential -UserName 'Polycom' -Message 'Please supply the admin password for the device'
 ```
+
+Restart-VVXDevice -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate -ErrorAction:Ignore
 
 ## PARAMETERS
 
 ### -Device
-Device to send push command for processing.
+Device to send command for processing.
 
 ```yaml
 Type: String
-Parameter Sets: URINotPassed
+Parameter Sets: (All)
 Aliases: Phone, DeviceName
 
 Required: True
@@ -57,11 +52,11 @@ Default is HTTP.
 
 ```yaml
 Type: String
-Parameter Sets: URINotPassed
+Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 2
+Position: Named
 Default value: HTTP
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -73,58 +68,12 @@ Default is 80.
 
 ```yaml
 Type: Int32
-Parameter Sets: URINotPassed
+Parameter Sets: (All)
 Aliases: 
 
 Required: False
 Position: Named
 Default value: 80
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Base
-Base push URI path.
-Defaults to push
-
-```yaml
-Type: String
-Parameter Sets: URINotPassed
-Aliases: 
-
-Required: False
-Position: Named
-Default value: Push
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FullURI
-A full web url to parse
-
-```yaml
-Type: String
-Parameter Sets: URIPassed
-Aliases: 
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Body
-The body of the push command
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: 
-
-Required: True
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -166,7 +115,7 @@ User ID and password for the device
 ```yaml
 Type: PSCredential
 Parameter Sets: (All)
-Aliases: Creds, Cred
+Aliases: Creds
 
 Required: False
 Position: Named

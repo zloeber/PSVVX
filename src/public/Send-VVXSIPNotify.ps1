@@ -1,13 +1,15 @@
-function Find-VVXDevice {
+function Send-VVXSIPNotify {
     <#
     .SYNOPSIS
-    Discovers a VVX device.
+    Sends a SIP signal to a device.
     .DESCRIPTION
-    Discovers a VVX device.
+    Sends a SIP signal to a device.
     .PARAMETER Device
-    Device to discover.
-    .PARAMETER DiscoveryWaitTime
+    Device to send to.
+    .PARAMETER WaitTime
     Time in ms to wait for responses. Defaults to 350ms
+    .PARAMETER Event
+    The SIP notify event to send. Defaults to 'check-sync'.
     .PARAMETER Port
     Port to use for remote device connection. Default is 5060.
     .PARAMETER LocalIP
@@ -15,9 +17,9 @@ function Find-VVXDevice {
     .PARAMETER LocalPort
     Local port to use for connection to device. Defaults to a random unused high port.
     .EXAMPLE
-    Find-VVXDevice -Device '192.168.1.100'
+    Find-VVXDevice -Device 10.0.29.20 | Where {$_.Status -eq 'online'} | Send-VVXSIPNotify
 
-    Checks to see if the device at 192.168.1.100 is a VVX device.
+    Sends the check-sync sip signal command (event) to 10.0.29.20 if the device is found.
     .NOTES
     Author: Zachary Loeber
     .LINK
@@ -29,13 +31,16 @@ function Find-VVXDevice {
         [Alias('Phone','DeviceName','IP')]
         [string]$Device,
 
-        [Parameter()]
+        [Parameter(ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [int]$Port = 5060,
 
         [Parameter()]
-        [int]$DiscoveryWaitTime = 350,
+        [int]$WaitTime = 350,
 
         [Parameter()]
+        [string]$Event = 'check-sync',
+
+        [Parameter(ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [string]$LocalIP = (Get-PIIPAddress | Select -First 1).IP.ToString(),
 
         [Parameter()]
@@ -50,7 +55,7 @@ function Find-VVXDevice {
         Write-Verbose "$($FunctionName): Begin."
 
         #Note: This socket timeout has been tuned to allow phones to respond within 350ms. This timer should work well in most cases, however, if you have a device that is on a slow link you may need to make this value higher.
-        $theDiscoveryWaitTime = $DiscoveryWaitTime * 1000
+        $RequestWaitTime = $WaitTime * 1000
         $serverip = "$($LocalIP):$LocalPort"
         $phoneid = "discover"
         $message = @"
@@ -59,8 +64,10 @@ Via: SIP/2.0/UDP ${serverip}
 From: <sip:$($phoneid)>;tag=1530231855-106746376154
 To: <sip:%%DEVICE%%:$($Port)>
 Call-ID: %%CALLID%%
-CSeq: 1500 NOTIFY
+CSeq: 1 NOTIFY
 Contact: <sip:$($phoneid)>
+Event: $Event
+Max-Forwards: 10
 Content-Length: 0
 
 
@@ -91,7 +98,8 @@ Content-Length: 0
             }
 
             $sipmessage = $message -replace '%%DEVICE%%',$Device -replace '%%CALLID%%',$call_id
-            Write-Verbose "$($FunctionName): Discovering $($Device):$($Port) using source of $serverip"
+            Write-Verbose "$($FunctionName): Sending SIP Notify to $($Device):$($Port) using source of $serverip with the $Event event"
+            Write-Debug $sipmessage
 
             $a = new-object system.text.asciiencoding
             $byte = $a.GetBytes($sipmessage)
@@ -116,8 +124,8 @@ Content-Length: 0
             $BytesReceivedError = $false
 
             try {
-                Write-Verbose "$($FunctionName): Polling device for $theDiscoveryWaitTime ms..."
-                if($Socket.Poll($theDiscoveryWaitTime,[System.Net.Sockets.SelectMode]::SelectRead)) {
+                Write-Verbose "$($FunctionName): Polling device for $RequestWaitTime ms..."
+                if($Socket.Poll($RequestWaitTime,[System.Net.Sockets.SelectMode]::SelectRead)) {
                     $receivebytes = $Socket.Receive($buffer)
                 }
                 else {

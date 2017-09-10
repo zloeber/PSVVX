@@ -4,49 +4,98 @@ online version: https://github.com/zloeber/PSVVX
 schema: 2.0.0
 ---
 
-# Send-VVXPushCommand
+# Get-VVXScreenShot
 
 ## SYNOPSIS
-Sends a push command to a VVX device.
+Returns a screenshot of the vvx device screen.
 
 ## SYNTAX
 
-### URINotPassed (Default)
+### AsStream
 ```
-Send-VVXPushCommand [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Base <String>] -Body <Object>
+Get-VVXScreenShot [-Device] <String> [-Screen <String>] [-AsStream] [-Protocol <String>] [-Port <Int32>]
  [-RetryCount <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
 ```
 
-### URIPassed
+### AsFile
 ```
-Send-VVXPushCommand [-FullURI] <String> -Body <Object> [-RetryCount <Int32>] [-IgnoreSSLCertificate]
- [-Credential <PSCredential>]
+Get-VVXScreenShot [-Device] <String> [-Screen <String>] -File <String> [-Protocol <String>] [-Port <Int32>]
+ [-RetryCount <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>] [-Silent]
 ```
 
 ## DESCRIPTION
-Sends a push command to a VVX device.
+Returns a screenshot of the vvx device screen.
 
 ## EXAMPLES
 
 ### -------------------------- EXAMPLE 1 --------------------------
 ```
-TBD
+$cred = Get-Credential -UserName 'Polycom' -Message 'Please supply the admin password for the device'
 ```
+
+Get-VVXScreenShot -Credential $cred -Protocol 'https' -Port 443 -Device '10.0.29.20' -IgnoreSSLCertificate -File c:\temp\vvxscreenshot.bmp
 
 ## PARAMETERS
 
 ### -Device
-Device to send push command for processing.
+Device to send command for processing.
 
 ```yaml
 Type: String
-Parameter Sets: URINotPassed
+Parameter Sets: (All)
 Aliases: Phone, DeviceName
 
 Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -Screen
+Which screen to capture.
+Can be 'mainScreen','em/1','em/2', or 'em/3'.
+Defaults to mainScreen.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: Named
+Default value: MainScreen
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -File
+File name to save screenshot to.
+
+```yaml
+Type: String
+Parameter Sets: AsFile
+Aliases: 
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AsStream
+Return results as a stream instead of saving to a file.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AsStream
+Aliases: 
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -57,11 +106,11 @@ Default is HTTP.
 
 ```yaml
 Type: String
-Parameter Sets: URINotPassed
+Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 2
+Position: Named
 Default value: HTTP
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -73,58 +122,12 @@ Default is 80.
 
 ```yaml
 Type: Int32
-Parameter Sets: URINotPassed
+Parameter Sets: (All)
 Aliases: 
 
 Required: False
 Position: Named
 Default value: 80
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Base
-Base push URI path.
-Defaults to push
-
-```yaml
-Type: String
-Parameter Sets: URINotPassed
-Aliases: 
-
-Required: False
-Position: Named
-Default value: Push
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FullURI
-A full web url to parse
-
-```yaml
-Type: String
-Parameter Sets: URIPassed
-Aliases: 
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Body
-The body of the push command
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: 
-
-Required: True
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -166,11 +169,26 @@ User ID and password for the device
 ```yaml
 Type: PSCredential
 Parameter Sets: (All)
-Aliases: Creds, Cred
+Aliases: Creds
 
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Silent
+Do not display progress indicators
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AsFile
+Aliases: 
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -180,6 +198,10 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ## NOTES
+For this function to work the user must manually configure Settings -\> Basic -\> Preferences -\> Screen Capture -\> Enabled
+
+You can view all screens in your browser by directly going to http\<s\>:\\\\\<device\>:\<port\>\captureScreen as well.
+
 Author: Zachary Loeber
 
 ## RELATED LINKS

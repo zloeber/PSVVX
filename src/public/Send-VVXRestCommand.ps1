@@ -88,10 +88,8 @@ function Send-VVXRestCommand {
 
         [Parameter(ParameterSetName = 'URINotPassed')]
         [Parameter(ParameterSetName = 'URIPassed')]
-        [alias('Creds')]
-        [Management.Automation.PSCredential]
-        [System.Management.Automation.CredentialAttribute()]
-        $Credential
+        [alias('Creds','Cred')]
+        [Management.Automation.PSCredential]$Credential
     )
     begin {
         if ($Script:ThisModuleLoaded) {
@@ -156,12 +154,15 @@ function Send-VVXRestCommand {
                 $reader = [IO.StreamReader] $response.GetResponseStream()
                 $output = $reader.ReadToEnd()
                 $json = $output | ConvertFrom-Json
+                ($Script:LastRESTCall).Response = $response
 
                 $reader.Close()
                 $response.Close()
             }
             catch {
                 $RESTError = $_
+                ($Script:LastRESTCall).Response = $response
+                ($Script:LastRESTCall).Error = $RESTError
                 if ($RetryCount -gt 0) {
                     Write-Verbose "$($FunctionName): Issue connecting to URI, Retries Left = $RetryCount"
                     $RetryCount--

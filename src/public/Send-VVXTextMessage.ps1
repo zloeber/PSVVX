@@ -71,10 +71,8 @@ function Send-VVXTextMessage {
         [switch]$IgnoreSSLCertificate,
 
         [Parameter()]
-        [alias('Creds')]
-        [Management.Automation.PSCredential]
-        [System.Management.Automation.CredentialAttribute()]
-        $Credential
+        [alias('Creds','Cred')]
+        [Management.Automation.PSCredential]$Credential
     )
 
     $vvxphone = Find-VVXDevice -Device $Device

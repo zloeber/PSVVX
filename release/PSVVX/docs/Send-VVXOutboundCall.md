@@ -12,8 +12,9 @@ Send a call from the specified VVX device.
 ## SYNTAX
 
 ```
-Send-VVXOutboundCall [-Device] <String> -Number <String> [-Line <String>] [-Protocol <String>] [-Port <Int32>]
- [-RetryCount <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
+Send-VVXOutboundCall [-Device] <String> -Number <String> [-Line <String>] [-CallType <String>]
+ [-Protocol <String>] [-Port <Int32>] [-RetryCount <Int32>] [-IgnoreSSLCertificate]
+ [-Credential <PSCredential>]
 ```
 
 ## DESCRIPTION
@@ -72,6 +73,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: 1
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CallType
+Call type to send.
+Defaults to SIP.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: Named
+Default value: SIP
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -146,7 +163,7 @@ User ID and password for the device
 ```yaml
 Type: PSCredential
 Parameter Sets: (All)
-Aliases: Creds
+Aliases: Creds, Cred
 
 Required: False
 Position: Named

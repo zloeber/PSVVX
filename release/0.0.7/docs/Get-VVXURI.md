@@ -4,27 +4,27 @@ online version: https://github.com/zloeber/PSVVX
 schema: 2.0.0
 ---
 
-# Send-VVXPushCommand
+# Get-VVXURI
 
 ## SYNOPSIS
-Sends a push command to a VVX device.
+Attempts to retrieve a VVX URI.
 
 ## SYNTAX
 
 ### URINotPassed (Default)
 ```
-Send-VVXPushCommand [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Base <String>] -Body <Object>
- [-RetryCount <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
+Get-VVXURI [-Device] <String> [[-Protocol] <String>] [-Port <Int32>] [-Path <String>] [-RetryCount <Int32>]
+ [-RequestTimeOut <Int32>] [-IgnoreSSLCertificate] [-Credential <PSCredential>]
 ```
 
 ### URIPassed
 ```
-Send-VVXPushCommand [-FullURI] <String> -Body <Object> [-RetryCount <Int32>] [-IgnoreSSLCertificate]
+Get-VVXURI [-FullURI] <String> [-RetryCount <Int32>] [-RequestTimeOut <Int32>] [-IgnoreSSLCertificate]
  [-Credential <PSCredential>]
 ```
 
 ## DESCRIPTION
-Sends a push command to a VVX device.
+Attempts to retrieve a VVX URI.
 
 ## EXAMPLES
 
@@ -36,7 +36,7 @@ TBD
 ## PARAMETERS
 
 ### -Device
-Device to send push command for processing.
+Device to send HTTP get request
 
 ```yaml
 Type: String
@@ -83,9 +83,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Base
-Base push URI path.
-Defaults to push
+### -Path
+Base REST uri path.
 
 ```yaml
 Type: String
@@ -94,7 +93,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: Push
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -114,21 +113,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Body
-The body of the push command
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: 
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -RetryCount
 Number of times to retry if unsuccessful.
 Default is 3 times.
@@ -141,6 +125,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: 3
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RequestTimeOut
+Amount of time to allow for the request to process (in ms).
+Defaults to 800 ms.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: Named
+Default value: 800
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -166,7 +166,7 @@ User ID and password for the device
 ```yaml
 Type: PSCredential
 Parameter Sets: (All)
-Aliases: Creds, Cred
+Aliases: Creds
 
 Required: False
 Position: Named
