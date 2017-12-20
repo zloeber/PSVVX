@@ -1,5 +1,6 @@
 ﻿---
 external help file: PSVVX-help.xml
+Module Name: PSVVX
 online version: https://github.com/zloeber/PSVVX
 schema: 2.0.0
 ---

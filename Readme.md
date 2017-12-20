@@ -51,6 +51,9 @@ and import the module to your session to test, but not install this module.
 - Added Send-VVSSIPNotify function
 - Many other clean up items
 
+0.0.8
+- Cleaned up Find-VVXDevice quite a bit and added DeviceType to output.
+
 ## Contribute
 
 Please feel free to contribute by opening new issues or providing pull requests.

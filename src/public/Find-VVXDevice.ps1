@@ -65,6 +65,26 @@ Content-Length: 0
 
 
 "@
+        # Lookup table for matching responses to device type.
+        $DeviceTypes = @{
+            "VVX500@" = 'VVX 500'
+            "VVX501@" = 'VVX 501'
+            "VVX600@" = 'VVX 600'
+            "VVX601@" = 'VVX 601'
+            "VVX300@" = 'VVX 300'
+            "VVX301@" = 'VVX 301'
+            "VVX310@" = 'VVX 310'
+            "VVX311@" = 'VVX 311'
+            "VVX400@" = 'VVX 400'
+            "VVX401@" = 'VVX 401'
+            "VVX410@" = 'VVX 410'
+            'PolycomVVX-VVX_410' = 'VVX 410'
+            "VVX411@" = 'VVX 411'
+            "VVX200@" = 'VVX 200'
+            "VVX201@" = 'VVX 201'
+            'PolycomRealPresenceTrio-Trio_8800' = 'Trio 8800'
+            'PolycomRealPresenceTrio-Trio_8500' = 'Trio 8500'
+        }
         $Devices = @()
     }
 
@@ -81,13 +101,14 @@ Content-Length: 0
             $call_id = "${time}msgto${phoneid}"
             $Result = @{
                 Device = $Device
+                DeviceType = $null
                 Port = $Port
                 LocalIP = $LocalIP
                 Response = $null
-                Status = $null
+                Status = 'Unknown'
                 LyncServer = $null
-                ClientApp = $null
                 SipUser = $null
+                UserAgent = $null
             }
 
             $sipmessage = $message -replace '%%DEVICE%%',$Device -replace '%%CALLID%%',$call_id
@@ -136,44 +157,33 @@ Content-Length: 0
             if(-not $BytesReceivedError) {
                 if ($receivebytes) {
                     [string]$returndata = $a.GetString($buffer, 0, $receivebytes)
-                    $Result.Status = 'Online'
-                    $Result.Response = $returndata
 
-                    if($returndata -imatch "SIP/2.0 200 OK") {
+                    $Result.Response = $returndata
+                    $Result.Status = 'Online'
+                    if ($returndata -imatch "SIP/2.0 200 OK") {
                         Write-Verbose "$($FunctionName): Received SIP/2.0 200 OK reponse"
-                        if($returndata -imatch "Contact: <sip:" -and $returndata -imatch "PolycomVVX") {
+                        $Result.DeviceType = 'SIP Device'
+                        if ($returndata -imatch [string]($DeviceTypes.Keys -join '|')) {
+                            $Result.DeviceType = $DeviceTypes[$Matches[0]]
+                        }
+
+                        if ($returndata -imatch "Contact: <sip:") {
                             [string]$returndataSplit = ($returndata -split 'Contact: <sip:')[1]
                             [string]$returndataSplit = ($returndataSplit -split "`r`n")[0]
 
-                            if($returndataSplit -imatch "VVX500@" -or $returndataSplit -imatch "VVX501@" -or $returndataSplit -imatch "VVX600@" -or $returndataSplit -imatch "VVX601@" -or $returndataSplit -imatch "VVX300@" -or $returndataSplit -imatch "VVX301@" -or $returndataSplit -imatch "VVX310@" -or $returndataSplit -imatch "VVX311@" -or $returndataSplit -imatch "VVX400@" -or $returndataSplit -imatch "VVX401@" -or $returndataSplit -imatch "VVX410@" -or $returndataSplit -imatch "VVX411@" -or $returndataSplit -imatch "VVX200@" -or $returndataSplit -imatch "VVX201@") {
-                                Write-Output "$($FunctionName): Discovered device with no user logged in."
-
-                                if($returndata -imatch "User-Agent: ") {
-                                    [string]$ClientAppTemp = ($returndata -split 'User-Agent: ')[1]
-                                    [string]$ClientApp = ($ClientAppTemp -split "`r`n")[0]
-                                }
-                            }
-                            elseif ($returndataSplit.Contains(";opaque")) {
+                            if ($returndataSplit.Contains(";opaque")) {
                                 $Result.SipUser = ($returndataSplit -split ';')[0]
 
                                 if($returndata -imatch "targetname=") {
                                     [string]$LyncServerStringTemp = ($returndata -split "targetname=`"")[1]
                                     $Result.LyncServer = ($LyncServerStringTemp -split "`",")[0]
                                 }
-                                if($returndata -imatch "User-Agent: ") {
-                                    [string]$ClientAppTemp = ($returndata -split 'User-Agent: ')[1]
-                                    $Result.ClientApp = ($ClientAppTemp -split "`r`n")[0]
-                                }
                             }
                         }
-                        else {
-                            $Result.Response = $returndata
-                            $Result.Status = 'Non-VVX Device'
+                        if($returndata -imatch "User-Agent: ") {
+                            [string]$UserAgentTemp = ($returndata -split 'User-Agent: ')[1]
+                            $Result.UserAgent = ($UserAgentTemp -split "`r`n")[0]
                         }
-                    }
-                    else {
-                        $Result.Status = 'Error'
-                        $Result.Response = $returndata
                     }
                 }
                 else {
@@ -184,7 +194,7 @@ Content-Length: 0
             $Socket.Dispose()
             $Socket = $null
 
-            New-Object -TypeName psobject -Property $Result
+            New-Object -TypeName psobject -Property $Result | Select-Object Device,DeviceType,Port,LocalIP,Response,Status,LyncServer,SipUser,UserAgent
         }
     }
 }

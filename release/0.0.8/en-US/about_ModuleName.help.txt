@@ -1,0 +1,17 @@
+TOPIC
+    about_PSVVX
+
+SHORT DESCRIPTION
+    PowerShell module for Polycom VVX devices
+
+LONG DESCRIPTION
+    PowerShell module for Polycom VVX devices
+
+EXAMPLES
+    TBD
+
+KEYWORDS
+    Polycom,VVX,API,REST
+
+SEE ALSO
+    https://github.com/zloeber/psvvx
