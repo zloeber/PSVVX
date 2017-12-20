@@ -360,7 +360,7 @@ Content-Length: 0
             $Socket.Dispose()
             $Socket = $null
 
-            New-Object -TypeName psobject -Property $Result
+            New-Object -TypeName psobject -Property $Result | Select-Object Device,DeviceType,Port,LocalIP,Response,Status,LyncServer,SipUser,UserAgent
         }
     }
 }
